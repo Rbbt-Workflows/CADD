@@ -1,0 +1,10 @@
+CADD=/$PWD filter="*"{
+ workflow.rb
+ lib=lib{
+  rbbt=rbbt{
+   sources=sources{
+    CADD.rb
+   }
+  }
+ }
+}
