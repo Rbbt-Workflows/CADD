@@ -18,7 +18,7 @@ module CADD
     database.unnamed = true
     dumper = TSV::Dumper.new :key_field => "Genomic Mutation", :fields => database.fields, :type => :list, :cast => :to_f
     dumper.init
-    TSV.traverse mutations, :into => dumper, :bar => true, :type => :array do |mutation|
+    TSV.traverse mutations, :into => dumper, :bar => true, :type => :array, :bar => self.progress_bar("Annotate with CADD") do |mutation|
       p = database[mutation]
       next if p.nil?
       [mutation, p]

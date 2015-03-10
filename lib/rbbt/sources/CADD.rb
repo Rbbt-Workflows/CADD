@@ -9,7 +9,7 @@ module CADD
 
   URL = "http://krishna.gs.washington.edu/download/CADD/v1.0/whole_genome_SNVs.tsv.gz"
 
-  CADD.claim CADD.data[File.basename(URL)], :url, URL
+  CADD.claim CADD.data[File.basename(URL).sub('.gz','')], :url, URL
 
   GM_SHARD_FUNCTION = Proc.new do |key|
     key[0..key.index(":")-1]
@@ -26,7 +26,7 @@ module CADD
 
   def self.database
     @@database ||= begin
-                     Persist.persist_tsv("CADD", CADD.data[File.basename(URL)].find, {}, :persist => true,
+                     Persist.persist_tsv("CADD", CADD.data[File.basename(URL).sub('.gz','')].find, {}, :persist => true,
                                          :file => CADD.scores_packed_shard.find,
                                          :prefix => "CADD", :pattern => %w(f f f f f f f f), :engine => "pki",
                                          :shard_function => GM_SHARD_FUNCTION, :pos_function => CHR_POS) do |sharder|
@@ -36,7 +36,7 @@ module CADD
                        sharder.type = :list
 
                        #file = CMD.cmd('gunzip', :in => File.open(CADD.data[File.basename(URL)].find), :pipe => true)
-                       file = CADD.data[File.basename(URL)]
+                       file = CADD.data[File.basename(URL).sub('.gz','')]
                        last_chr = nil
                        last_pos = nil
                        last_values = {}
